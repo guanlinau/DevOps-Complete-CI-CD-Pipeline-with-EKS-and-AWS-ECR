@@ -146,9 +146,6 @@ pipeline {
             steps {
                 script {
                     echo 'deploying docker image...'
-                     withCredentials([usernamePassword(credentialsId: 'aws-repo-credential', passwordVariable: 'PASS', usernameVariable: 'USER')]) {
-                      sh "kubectl create secret docker-registry my-registry-key --docker-server=${ECR_REPO_URL} --docker-username=$USER --docker-password=$PASS"
-                  }
                     sh 'envsubst < kubernetes/deployment.yaml | kubectl apply -f -'
                     sh 'envsubst < kubernetes/service.yaml | kubectl apply -f -'
                 }
@@ -157,13 +154,13 @@ pipeline {
         stage('commit version update') {
             steps {
                 script {
-                    withCredentials([usernamePassword(credentialsId: 'Jenkis-github-pat', passwordVariable: 'PASS', usernameVariable: 'USER')]) {
+                    withCredentials([usernamePassword(credentialsId: 'Jenkins-github-pat', passwordVariable: 'PASS', usernameVariable: 'USER')]) {
                         sh 'git config user.email "jason2019au@gmail.com"'
                         sh 'git config user.name "jason"'
-                        sh "git remote set-url origin https://${USER}:${PASS}@github.com/guanlinau/java-maven-app.git"
+                        sh "git remote set-url origin https://${USER}:${PASS}@github.com/DevOps-CGL/java-maven-app.git"
                         sh 'git add .'
-                        sh 'git commit -m "ci: bump${BUID_NUMBER}"'
-                        sh 'git push origin HEAD:jenkins-jobs'
+                        sh 'git commit -m "ci: version bump${BUILD_NUMBER}"'
+                        sh 'git push origin HEAD:master'
                     }
                 }
             }
