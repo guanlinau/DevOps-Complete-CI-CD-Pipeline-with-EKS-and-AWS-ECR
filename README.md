@@ -28,7 +28,13 @@ d. CD step: Deploy new application version to EKS cluster e. CD step: Commit the
 
 ###### Step 2: Create AWS EKS cluster with Nodegroups on AWS
 
+#1 Create Auto scaler for Nodegroup
+
 ###### Step 3: Create a AWS ECR private repository and push image to it
+
+#1 Configure aws-repo-credential in Jenkins for docker login
+
+#2 Configure secret component for Docker pull image from ECR
 
 ###### Step 4: Install gettext-base tool for envsubst on jenkins container server
 
@@ -40,11 +46,9 @@ apt-get update
 apt-get install gettext-base
 ```
 
-###### Step 5: Install AWS-IAM-Authenticator
+###### Step 5: Install AWS-IAM-Authenticator for authenticate kubectl interact with eks cluster
 
-###### Step 6: Create aws-repo-credential on Jenkins by AWS ECR repo credential
-
-###### Step 5: Create Java app deployment and service component config file
+###### Step 6: Create Java app deployment and service component config file
 
 ```
 apiVersion: apps/v1
@@ -88,7 +92,7 @@ spec:
       targetPort: 8080
 ```
 
-###### Step 5: Update the Deploy stage in Jenkinsfile
+###### Step 7: Update the Deploy stage in Jenkinsfile
 
 ```
 #!/usr/bin/env groovy
@@ -169,3 +173,7 @@ pipeline {
 }
 
 ```
+
+![image](images/Screenshot%202023-05-14%20at%208.47.16%20am.png)
+![image](images/Screenshot%202023-05-14%20at%208.47.39%20am.png)
+![image](images/Screenshot%202023-05-14%20at%208.47.50%20am.png)
